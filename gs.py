@@ -52,14 +52,7 @@ class GerenciadorSensores:
         frame_sensor = tk.Frame(self.frame_sensores, pady=5, padx=5, relief="groove", borderwidth=2)
         frame_sensor.pack(fill="x", padx=5, pady=5, anchor="w")
 
-        if info['tipo'] == 'Temperatura':
-            sufix = '°C'
-        elif info['tipo'] == 'Pressao':
-            sufix = 'bar'
-        elif info['tipo'] == 'Umidade':
-            sufix = '% UR'
-        else:
-            sufix = 'rpm'
+        sufix = self.obter_sufixo(info['tipo'])
 
         label = tk.Label(frame_sensor, text=f"Sensor | Tópico: {info['topic']} | min: {info['min_val']}{sufix} max: {info['max_val']}{sufix} ({info['tipo']})", font=("Arial", 10, "bold"))
         label.pack(anchor="w")
@@ -76,6 +69,15 @@ class GerenciadorSensores:
         texto_saida.tag_configure("INFO", foreground="black")
 
         return texto_saida
+    
+    def obter_sufixo(self, tipo):
+        sufixos = {
+            "Temperatura": "°C",
+            "Pressao": " bar",
+            "Umidade": "% UR",
+            "Velocidade": "m/s"
+        }
+        return sufixos.get(tipo, "")
 
     def on_message(self, client, userdata, msg):
         try:
@@ -101,17 +103,8 @@ class GerenciadorSensores:
 
     def log_mensagem(self, topico, mensagem, tag):
         info = self.sensores_disponiveis.get(topico, {})
-        tipo = info.get("tipo", "")
-        if tag == 'INFO':
-                    sufix = ''
-        elif tipo == "Temperatura":
-            sufix = "°C"
-        elif tipo == "Pressao":
-            sufix = " bar"
-        elif tipo == "Umidade":
-            sufix = "% UR"
-        else:
-            sufix = "rpm"
+        if tag == 'WARN':
+            sufix = self.obter_sufixo(info['tipo'])
 
         if topico in self.sensores_subscritos:
             caixa_mensagem = self.sensores_subscritos[topico]

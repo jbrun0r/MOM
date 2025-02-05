@@ -19,7 +19,7 @@ class Sensor:
 
     def setup(self):
         self.topic = input("Tópico: ").strip()
-        self.tipo = input("Tipo: ").strip()
+        self.tipo = input("Tipo (Temperatura, Pressao, Umidade ou Velocidade): ").strip()
         self.min_val = int(input("Min: ").strip())
         self.max_val = int(input("Max: ").strip())
 
