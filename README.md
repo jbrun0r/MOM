@@ -1,4 +1,4 @@
-# Gerenciador de uma rede sensores com MOM (Message-Oriented Middleware)
+# Gerenciador de uma rede de sensores com MOM (Message-Oriented Middleware)
 ![](https://github.com/jbrun0r/MOM/blob/main/gs.png?raw=true)
 
 ## Set Up a Virtual Environment
